@@ -1,0 +1,290 @@
+<html>
+  <head>
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+     <style>
+        *{
+           -webkit-appearance: none;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        body{
+        background-color: #eee;
+        font-family: "Poppins" , sans-serif;
+        margin: 0;
+        }
+        input{
+        color: black;
+        border-radius: 10px;
+        padding: 10px;
+        background: white;
+        margin-top: 10px;
+        width: 100%;
+        border: none;
+        box-shadow: 1px 1px 10px 1px lightgray;
+        }
+        select{
+        color: black;
+        border-radius: 10px;
+        padding: 10px;
+        background: white;
+        width: 100%;
+        margin-top: 10px;
+        border: none;
+        box-shadow: 1px 1px 10px 1px lightgray;
+        }
+        .console{
+        padding: 10px;
+        box-shadow: 1px 1px 10px 1px lightgray;
+        background: white;
+        margin-top: 10px;
+        border-radius: 10px;
+        }
+        .remove{
+        background-color: rgb(255, 121, 121);
+        color: white;
+        }
+        .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-gap: 10px;
+        align-items: stretch;
+        }
+        .grid > .card {
+        border-radius: 21px;
+        text-align: center;
+        padding: 15px;
+        background-color: white;
+        box-shadow: 1px 1px 10px 1px lightgray;
+        }
+        button{
+        border: none;
+        }
+        .add{
+        background-color: rgb(121, 255, 121);
+        color: white;
+        width: 100px;
+        }
+        .generate{
+        background-color: rgb(255, 255, 255);
+        width: 120px;
+        }
+        .buttons{
+        padding: 10px;
+        box-shadow: 1px 1px 10px 1px lightgray;
+        background: white;
+        margin-top: 10px;
+        width: 215px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        }
+        button{
+        color: black;
+        border-radius: 10px;
+        padding: 10px;
+        background: white;
+        border: none;
+        box-shadow: 1px 1px 10px 1px lightgray;
+        }
+        .container{
+        padding: 10px;
+        margin-bottom: 100px;
+        margin-top: 80px;
+        }
+              label {
+ display: inline-block;
+ width: 140px;
+ text-align: right;
+}
+.item{
+ display: inline-block;
+ padding: 10px;
+ 
+}
+.active{
+ background-color: rgb(236, 236, 236);
+ border-radius: 10px;
+}
+.navbar{
+ width: 100%;
+ padding: 10px;
+ position: fixed;
+ top: 0;
+ background-color: white;
+ box-shadow: 1px 1px 10px 1px lightgray;
+}
+a{
+ color: black;
+ text-decoration: none;
+}
+     </style>
+     <link href="css/style.css" rel="stylesheet">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="navbar">
+     <a href="index.html"><div class="item active">Apps</div></a>
+     <a href="categories.html"><div class="item">Categories</div></a>
+     <a href="featured.html"><div class="item">Featured</div></a>
+    </div>
+     <div class="container">
+        <div class="grid lists" id="gen">
+        </div>
+        
+        <div class="console"" id='console'>
+         Copy Paste the results inside apps.json
+        </div>
+     </div>
+     </div>
+     <div class="buttons">
+        <button class="button add" id="add">Add Track</button>
+        <button class="button generate" id="preview">Generate</button>
+        <button class="button generate" id="dwn-btn">Download JSON</button>
+        <button class="button" onclick="copyDivToClipboard();">Copy to clipboard</button>
+     </div>
+     <script>
+        function showValues() {
+        var frm = $('#myform');
+        var data = JSON.stringify(frm.serializeArray());
+        }
+     </script>
+
+
+<script>
+ function copyDivToClipboard() {
+var range = document.createRange();
+range.selectNode(document.getElementById("console"));
+window.getSelection().removeAllRanges(); // clear current selection
+window.getSelection().addRange(range); // to select text
+document.execCommand("copy");
+window.getSelection().removeAllRanges();// to deselect
+}
+ </script>
+ 
+
+     <script>
+        $.getJSON("https://coronux.github.io/zeusdata/apps.json?" + Math.random().toString(36).slice(-500000000), function(result) {
+        
+        var data = result.suggestions;
+        
+        for (var i = 0; i < result.length; i++) {
+          $('.lists').append('<div class="fieldwrapper card" id="field' + result[i].id + '"><img src="https://files.getzeus.app/ipas/' + result[i].title + '/icon.png"  width="100%" onerror="fixmissing()" style="border-radius: 10px; box-shadow: 1px 1px 10px 1px lightgray;"> <input type="text" "="" placeholder="ID" value="' + result[i].id + '" class="id fieldname"> <input type="text" "="" placeholder="Title" value="' + result[i].title + '" class="title fieldname"> <input type="text" "="" placeholder="Icon" value="' + result[i].icon + '" class="icon fieldname"> <input type="text" "="" placeholder="Developer" value="' + result[i].developer + '" class="developer fieldname"> <input type="text" "="" placeholder="Link" value="' + result[i].link + '" class="link fieldname"> <input type="text" "="" placeholder="Description" value="' + result[i].description + '" class="description fieldname"> <input type="text" "="" placeholder="Web" value="' + result[i].web + '" class="web fieldname"> <input type="text" "="" placeholder="Category" value="' + result[i].category + '" class="category fieldname"> <input type="button" class="remove" onclick="$(this).parent().remove()" value="Remove">' + '</div>');
+        }
+        });
+        
+        $(document).ready(function() {
+          $("#add").click(function() {
+            var intId = $("#gen div").length + 1;
+            var fieldWrapper = $("<div class=\"fieldwrapper card\" id=\"field" + intId + "\"/>");
+            var img = "<img src='https://getzeus.app/app/icons/256x256.png' onerror='this.onerror=null;fixmissing()' width='100%' style='border-radius: 10px; box-shadow: 1px 1px 10px 1px lightgray;'>"
+            var id = $("<input type=\"text\" \" placeholder=\"ID\"class=\"id fieldname\" />");
+            var title = $("<input type=\"text\" \" placeholder=\"Title\"class=\"title fieldname\" />");
+            var icon = $("<input type=\"text\" \" placeholder=\"Icon\"class=\"icon fieldname\" />");
+            var developer = $("<input type=\"text\" \" placeholder=\"Developer\"class=\"developer fieldname\" />");
+            var link = $("<input type=\"text\" \" placeholder=\"Link\"class=\"link fieldname\" />");
+            var description = $("<input type=\"text\" \" placeholder=\"Description\"class=\"description fieldname\" />");
+            var web = $("<input type=\"text\" \" placeholder=\"Web\"class=\"web\" />");
+            var category = $("<input type=\"text\" \" placeholder=\"Category\"class=\"category fieldname\" />");
+            var removeButton = $("<input type=\"button\"class=\"remove\" onclick=\"$(this).parent().remove()\" value=\"Remove\"/>");
+            
+            function addEventsAndStuff() {
+             $(this).parent().remove(); 
+             };
+
+           
+             fieldWrapper.append(img);
+            fieldWrapper.append(id);
+            fieldWrapper.append(title);
+            fieldWrapper.append(icon);
+            fieldWrapper.append(developer);
+            fieldWrapper.append(link);
+            fieldWrapper.append(description);
+            fieldWrapper.append(web);
+            fieldWrapper.append(category);
+        
+            fieldWrapper.append(removeButton);
+            $("#gen").append(fieldWrapper);
+          });
+          
+          $('#preview').click(function(){
+          
+            var o = []; 
+            
+            $('.fieldwrapper').each(function(){ 
+              var obj = {
+                id :  $(this).find('.id').val(), 
+                title :  $(this).find('.title').val(), 
+                icon :  $(this).find('.icon').val(), 
+                developer :  $(this).find('.developer').val(),
+                web :  $(this).find('.web').val(),
+                link :  $(this).find('.link').val(), 
+                description :  $(this).find('.description').val(),
+                category :  $(this).find('.category').val()
+              };
+                o.push(obj);
+            });
+            
+            $('#console').text(JSON.stringify(o, null,'\t')); // strigify to show
+            
+          });
+        });
+        
+        
+        
+        function download(filename, text) {
+       var element = document.createElement('a');
+       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+       element.setAttribute('download', filename);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+  }
+           
+ function fixmissing() {
+   event.target.src = "https://getzeus.app/app/assets/img/256x256.png";
+ }
+
+  document.getElementById("dwn-btn").addEventListener("click", function(){
+
+     var o = []; 
+            
+            $('.fieldwrapper').each(function(){ 
+              var obj = {
+                id :  $(this).find('.id').val(), 
+                title :  $(this).find('.title').val(), 
+                icon :  $(this).find('.icon').val(), 
+                developer :  $(this).find('.developer').val(), 
+                link :  $(this).find('.link').val(), 
+                description :  $(this).find('.description').val(),
+                web :  $(this).find('.web').val(),
+                category :  $(this).find('.category').val()
+              };
+                o.push(obj);
+            });
+            
+            $('#console').text(JSON.stringify(o, null,'\t')); // strigify to show
+            
+
+            
+
+      var text = document.getElementById("console").textContent;
+      var filename = "apps.json";
+      download(filename, text);
+  }, false);
+
+ setTimeout(
+   function() {
+       document.querySelectorAll('input[type="text"]').forEach(e => {
+ e.onload = (setInputBackground)
+ e.onload(setInputBackground)
+});
+
+function setInputBackground() {
+ this.style.backgroundColor =  this.value === "N/A" ? "red" : "white";
+this.style.color =  this.value === "N/A" ? "white" : "black";
+}
+   }, 1000);
+        
+     </script>
+  </body>
+</html>
